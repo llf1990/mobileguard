@@ -1,5 +1,6 @@
 package com.android.mobileguard.activities;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -11,22 +12,54 @@ import org.json.JSONObject;
 
 import com.android.mobileguard.utils.PackageInfoUtils;
 import com.android.mobileguard.utils.StreamTools;
-import com.androidpro.mobilesafety.R;
+import com.android.mobileguard.R;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.app.Activity;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SplashActivity extends Activity {
-	
-	
+	private static final String TAG = "SplashActivity";
+	private static final int SHOW_UPDATE_DIGLOG = 1;
+	private static final int ERROR = 0;
+	private String version;//版本号
+	private String downPath;
+	private ProgressDialog pd;
 	
 	private TextView tv_splash_version;
-	
+	private Handler  handler= new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case SHOW_UPDATE_DIGLOG:
+				showUpdateDialog(msg.obj.toString());
+				break;
+
+			case ERROR:
+				Toast.makeText(SplashActivity.this, "错误码："+msg.obj, 0).show();
+				break;
+			}
+		}
+		
+	};
 	
 	
     @Override
@@ -35,15 +68,97 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
         
-        String version = PackageInfoUtils.getPackageVersion(this);
+        version = PackageInfoUtils.getPackageVersion(this);
         tv_splash_version.setText("版本号："+version+"\n©2016版权所有");
         new Thread(new CheckVersionTask()).start();
         
     }
+    
+    protected void showUpdateDialog(String desc){
+    	AlertDialog.Builder builder = new Builder(this);
+    	
+    	builder.setTitle("升级提醒");
+    	
+    	builder.setMessage(desc);
+    	builder.setPositiveButton("立刻升级", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) { 
+				pd = new ProgressDialog(SplashActivity.this);
+				pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+				pd.show();
+				HttpUtils http = new HttpUtils();
+				File sdDir = Environment.getExternalStorageDirectory();
+				File file = new File(sdDir,SystemClock.uptimeMillis()+".apk");
+				if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
+					Log.i(TAG,"file absolut path"+file.getAbsolutePath());
+					http.download(downPath, file.getAbsolutePath(), new RequestCallBack<File>(){
+						@Override
+						public void onFailure(HttpException arg0, String arg1) {
+							Toast.makeText(SplashActivity.this, "下载失败!", 0).show();
+							Log.i(TAG,"下载路径"+downPath);
+							
+							loadMainUI();	
+							pd.dismiss();
 
+						}
+
+						@Override
+						public void onSuccess(ResponseInfo<File> fileinfo) {
+							pd.dismiss();
+							Toast.makeText(SplashActivity.this, "下载成功!", 0).show();
+							//覆盖安装apk文件
+							Intent intent = new Intent();
+							intent.setAction("android.intent.action.VIEW");
+							intent.addCategory("android.intent.category.DEFAULT");
+							intent.setDataAndType(Uri.fromFile(fileinfo.result), "application/vnd.android.package-archive");
+							startActivity(intent);
+						}
+						@Override
+						public void onLoading(long total, long current,
+								boolean isUploading) {
+							super.onLoading(total, current, isUploading);
+							pd.setMax((int)total);
+							pd.setProgress((int)current);
+						}
+						
+						
+					});
+				}else{
+					Toast.makeText(SplashActivity.this, "sd卡不可用，无法自动更新！", 0).show();
+					loadMainUI();
+				}
+			}
+		});
+    	builder.setNegativeButton("暂不升级", new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				
+				loadMainUI();
+			}
+		});
+    	builder.show();
+    }
+    private void loadMainUI() {
+    	try {
+			Thread.currentThread().sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+    	Intent intent = new Intent(this,HomeActivity.class);
+		startActivity(intent);
+		finish();		
+	}
+    
+    /**
+     * 获取服务器配置最新版本号
+     * @author feng
+     *
+     */
     private class CheckVersionTask implements Runnable{
 
-		private static final String TAG = "SplashActivity";
+		
 
 		@Override
 		public void run() {
@@ -63,15 +178,48 @@ public class SplashActivity extends Activity {
 						String result = StreamTools.readStream(is);
 						JSONObject jobj	= new JSONObject(result);
 						String serverVersion = jobj.getString("version");
+						String description = jobj.getString("description");
+					    downPath = jobj.getString("path");
+						Log.i(TAG,downPath);
 						Log.i(TAG,serverVersion);
+						
+						if(version.equals(serverVersion)){
+							Log.i(TAG,"已是最新版本，无需升级");
+							loadMainUI();
+						}else{
+							Log.i(TAG, "低版本，提示用户升级");
+							Message msg = Message.obtain();
+							msg.obj = description;
+							msg.what = SHOW_UPDATE_DIGLOG;
+							handler.sendMessage(msg);
+						}
+						
 					} catch (JSONException e) {
+						Message msg = Message.obtain();
+						msg.what = ERROR;
+						msg.obj = "code:408";
+						handler.sendMessage(msg);
 						e.printStackTrace();
+						
 					}
 					
+				}else{
+					Message msg = Message.obtain();
+					msg.what = ERROR;
+					msg.obj = "code:410";
+					handler.sendMessage(msg);
 				}
 			} catch (MalformedURLException e) {
+				Message msg = Message.obtain();
+				msg.what = ERROR;
+				msg.obj = "code:405";
+				handler.sendMessage(msg);
 				e.printStackTrace();
 			} catch (IOException e) {
+				Message msg = Message.obtain();
+				msg.what = ERROR;
+				msg.obj = "code:503";
+				handler.sendMessage(msg);
 				e.printStackTrace();
 			}
 			
