@@ -24,7 +24,7 @@ public class SplashActivity extends Activity {
         tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
         
         String version = PackageInfoUtils.getPackageVersion(this);
-        tv_splash_version.setText("�汾�ţ�"+version);
+        tv_splash_version.setText("版本号："+version+"\n©2016黑马版权所有");
         
     }
 
