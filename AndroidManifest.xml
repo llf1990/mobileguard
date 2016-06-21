@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:theme="@android:style/Theme.Black.NoTitleBar"
-            android:name="com.androidpro.mobilesafety.SplashActivity"
+            android:name="com.android.mobileguard.activities.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
