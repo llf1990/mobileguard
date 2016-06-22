@@ -141,11 +141,7 @@ public class SplashActivity extends Activity {
     	builder.show();
     }
     private void loadMainUI() {
-    	try {
-			Thread.currentThread().sleep(5000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+    	
     	Intent intent = new Intent(this,HomeActivity.class);
 		startActivity(intent);
 		finish();		
@@ -163,7 +159,8 @@ public class SplashActivity extends Activity {
 		@Override
 		public void run() {
 			String path = getResources().getString(R.string.url);
-			
+			Message msg = Message.obtain();
+			long startTime = SystemClock.currentThreadTimeMillis();
 			URL url;
 			try {
 				url = new URL(path);
@@ -188,39 +185,37 @@ public class SplashActivity extends Activity {
 							loadMainUI();
 						}else{
 							Log.i(TAG, "低版本，提示用户升级");
-							Message msg = Message.obtain();
 							msg.obj = description;
 							msg.what = SHOW_UPDATE_DIGLOG;
-							handler.sendMessage(msg);
 						}
 						
 					} catch (JSONException e) {
-						Message msg = Message.obtain();
 						msg.what = ERROR;
 						msg.obj = "code:408";
-						handler.sendMessage(msg);
+						loadMainUI();
 						e.printStackTrace();
 						
 					}
 					
 				}else{
-					Message msg = Message.obtain();
 					msg.what = ERROR;
 					msg.obj = "code:410";
-					handler.sendMessage(msg);
 				}
 			} catch (MalformedURLException e) {
-				Message msg = Message.obtain();
 				msg.what = ERROR;
 				msg.obj = "code:405";
-				handler.sendMessage(msg);
 				e.printStackTrace();
 			} catch (IOException e) {
-				Message msg = Message.obtain();
 				msg.what = ERROR;
 				msg.obj = "code:503";
-				handler.sendMessage(msg);
+				
 				e.printStackTrace();
+			}finally{
+				long endTime = SystemClock.currentThreadTimeMillis();
+				if(endTime - startTime < 3000){
+					SystemClock.sleep(3000-(endTime - startTime));
+				}
+				handler.sendMessage(msg);
 			}
 			
 		}
