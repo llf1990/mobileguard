@@ -31,6 +31,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,12 +40,13 @@ public class SplashActivity extends Activity {
 	private static final String TAG = "SplashActivity";
 	private static final int SHOW_UPDATE_DIGLOG = 1;
 	private static final int ERROR = 0;
-	private String version;//版本号
+	public static final int LOG = 2;
+	private String version;// 版本号
 	private String downPath;
 	private ProgressDialog pd;
-	
+
 	private TextView tv_splash_version;
-	private Handler  handler= new Handler(){
+	private Handler handler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
@@ -54,107 +56,130 @@ public class SplashActivity extends Activity {
 				break;
 
 			case ERROR:
-				Toast.makeText(SplashActivity.this, "错误码："+msg.obj, 0).show();
+				Toast.makeText(SplashActivity.this, "错误码：" + msg.obj, 0).show();
+				loadMainUI();
 				break;
+			case LOG:
+				SystemClock.sleep(2000);
+				loadMainUI();
 			}
 		}
-		
+
 	};
-	
-	
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-        tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
-        
-        version = PackageInfoUtils.getPackageVersion(this);
-        tv_splash_version.setText("版本号："+version+"\n©2016版权所有");
-        new Thread(new CheckVersionTask()).start();
-        
-    }
-    
-    protected void showUpdateDialog(String desc){
-    	AlertDialog.Builder builder = new Builder(this);
-    	
-    	builder.setTitle("升级提醒");
-    	
-    	builder.setMessage(desc);
-    	builder.setPositiveButton("立刻升级", new OnClickListener() {
-			
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_splash);
+		tv_splash_version = (TextView) findViewById(R.id.tv_splash_version);
+
+		version = PackageInfoUtils.getPackageVersion(this);
+		tv_splash_version.setText("版本号：" + version + "\n©2016版权所有");
+		SharedPreferences sp = getSharedPreferences("settingconfig",
+				MODE_PRIVATE);
+		boolean update = sp.getBoolean("status", true);
+		if (update) {
+			new Thread(new CheckVersionTask()).start();
+		} else {
+			new Thread() {
+				public void run() {
+					loadMainUI();
+				}
+			};
+		}
+
+	}
+
+	protected void showUpdateDialog(String desc) {
+		AlertDialog.Builder builder = new Builder(this);
+		builder.setCancelable(false);
+		builder.setTitle("升级提醒");
+
+		builder.setMessage(desc);
+		builder.setPositiveButton("立刻升级", new OnClickListener() {
+
 			@Override
-			public void onClick(DialogInterface dialog, int which) { 
+			public void onClick(DialogInterface dialog, int which) {
 				pd = new ProgressDialog(SplashActivity.this);
 				pd.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 				pd.show();
 				HttpUtils http = new HttpUtils();
 				File sdDir = Environment.getExternalStorageDirectory();
-				File file = new File(sdDir,SystemClock.uptimeMillis()+".apk");
-				if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-					Log.i(TAG,"file absolut path"+file.getAbsolutePath());
-					http.download(downPath, file.getAbsolutePath(), new RequestCallBack<File>(){
-						@Override
-						public void onFailure(HttpException arg0, String arg1) {
-							Toast.makeText(SplashActivity.this, "下载失败!", 0).show();
-							Log.i(TAG,"下载路径"+downPath);
-							
-							loadMainUI();	
-							pd.dismiss();
+				File file = new File(sdDir, SystemClock.uptimeMillis() + ".apk");
+				if (Environment.getExternalStorageState().equals(
+						Environment.MEDIA_MOUNTED)) {
+					Log.i(TAG, "file absolut path" + file.getAbsolutePath());
+					http.download(downPath, file.getAbsolutePath(),
+							new RequestCallBack<File>() {
+								@Override
+								public void onFailure(HttpException arg0,
+										String arg1) {
+									Toast.makeText(SplashActivity.this,
+											"下载失败!", 0).show();
+									Log.i(TAG, "下载路径" + downPath);
 
-						}
+									loadMainUI();
+									pd.dismiss();
 
-						@Override
-						public void onSuccess(ResponseInfo<File> fileinfo) {
-							pd.dismiss();
-							Toast.makeText(SplashActivity.this, "下载成功!", 0).show();
-							//覆盖安装apk文件
-							Intent intent = new Intent();
-							intent.setAction("android.intent.action.VIEW");
-							intent.addCategory("android.intent.category.DEFAULT");
-							intent.setDataAndType(Uri.fromFile(fileinfo.result), "application/vnd.android.package-archive");
-							startActivity(intent);
-						}
-						@Override
-						public void onLoading(long total, long current,
-								boolean isUploading) {
-							super.onLoading(total, current, isUploading);
-							pd.setMax((int)total);
-							pd.setProgress((int)current);
-						}
-						
-						
-					});
-				}else{
-					Toast.makeText(SplashActivity.this, "sd卡不可用，无法自动更新！", 0).show();
+								}
+
+								@Override
+								public void onSuccess(
+										ResponseInfo<File> fileinfo) {
+									pd.dismiss();
+									Toast.makeText(SplashActivity.this,
+											"下载成功!", 0).show();
+									// 覆盖安装apk文件
+									Intent intent = new Intent();
+									intent.setAction("android.intent.action.VIEW");
+									intent.addCategory("android.intent.category.DEFAULT");
+									intent.setDataAndType(
+											Uri.fromFile(fileinfo.result),
+											"application/vnd.android.package-archive");
+									startActivity(intent);
+								}
+
+								@Override
+								public void onLoading(long total, long current,
+										boolean isUploading) {
+									super.onLoading(total, current, isUploading);
+									pd.setMax((int) total);
+									pd.setProgress((int) current);
+								}
+
+							});
+				} else {
+					Toast.makeText(SplashActivity.this, "sd卡不可用，无法自动更新！", 0)
+							.show();
 					loadMainUI();
 				}
 			}
 		});
-    	builder.setNegativeButton("暂不升级", new OnClickListener() {
-			
+		builder.setNegativeButton("暂不升级", new OnClickListener() {
+
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				
+
 				loadMainUI();
 			}
 		});
-    	builder.show();
-    }
-    private void loadMainUI() {
-    	
-    	Intent intent = new Intent(this,HomeActivity.class);
-		startActivity(intent);
-		finish();		
+		builder.show();
 	}
-    
-    /**
-     * 获取服务器配置最新版本号
-     * @author feng
-     *
-     */
-    private class CheckVersionTask implements Runnable{
 
-		
+	private void loadMainUI() {
+
+		Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
+	/**
+	 * 获取服务器配置最新版本号
+	 * 
+	 * @author feng
+	 * 
+	 */
+	private class CheckVersionTask implements Runnable {
 
 		@Override
 		public void run() {
@@ -164,40 +189,39 @@ public class SplashActivity extends Activity {
 			URL url;
 			try {
 				url = new URL(path);
-				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				HttpURLConnection conn = (HttpURLConnection) url
+						.openConnection();
 				conn.setRequestMethod("GET");
 				conn.setConnectTimeout(5000);
 				int code = conn.getResponseCode();
-				
-				if(code == 200){
+
+				if (code == 200) {
 					try {
-						InputStream is = conn.getInputStream() ;
+						InputStream is = conn.getInputStream();
 						String result = StreamTools.readStream(is);
-						JSONObject jobj	= new JSONObject(result);
+						JSONObject jobj = new JSONObject(result);
 						String serverVersion = jobj.getString("version");
 						String description = jobj.getString("description");
-					    downPath = jobj.getString("path");
-						Log.i(TAG,downPath);
-						Log.i(TAG,serverVersion);
-						
-						if(version.equals(serverVersion)){
-							Log.i(TAG,"已是最新版本，无需升级");
-							loadMainUI();
-						}else{
+						downPath = jobj.getString("path");
+						if (version.equals(serverVersion)) {
+							Log.i(TAG, "已是最新版本，无需升级");
+							msg.what = LOG;
+						} else {
 							Log.i(TAG, "低版本，提示用户升级");
 							msg.obj = description;
 							msg.what = SHOW_UPDATE_DIGLOG;
 						}
 						
+						
 					} catch (JSONException e) {
 						msg.what = ERROR;
 						msg.obj = "code:408";
-						loadMainUI();
+
 						e.printStackTrace();
-						
+
 					}
-					
-				}else{
+
+				} else {
 					msg.what = ERROR;
 					msg.obj = "code:410";
 				}
@@ -208,19 +232,19 @@ public class SplashActivity extends Activity {
 			} catch (IOException e) {
 				msg.what = ERROR;
 				msg.obj = "code:503";
-				
+
 				e.printStackTrace();
-			}finally{
+			} finally {
 				long endTime = SystemClock.currentThreadTimeMillis();
-				if(endTime - startTime < 3000){
-					SystemClock.sleep(3000-(endTime - startTime));
+				if (endTime - startTime < 3000) {
+					SystemClock.sleep(3000 - (endTime - startTime));
 				}
 				handler.sendMessage(msg);
 			}
 			
-		}
-    	
-    }
-    
-}
 
+		}
+
+	}
+
+}

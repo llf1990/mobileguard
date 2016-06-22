@@ -27,6 +27,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.android.mobileguard.activities.HomeActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.SettingActivity"></activity>
     </application>
 
 </manifest>

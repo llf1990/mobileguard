@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dip"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="3dp" >
+
+    <LinearLayout
+        android:layout_width="300dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/dialog_title_background"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/dialog_title_default_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:text="设置您的密码" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_setdialog_pwd"
+        android:layout_width="270dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="请输入密码"
+        android:inputType="textPassword"
+        android:textStyle="" />
+
+    <EditText
+        android:id="@+id/et_setdialog_confirm"
+        android:layout_width="270dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="请确认密码"
+        android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="280dip"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="3dip" >
+
+        <Button
+            android:id="@+id/bt_setdialog_confirm"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/dg_confirm_selector"
+            android:text="确认" />
+
+        <Button
+            android:id="@+id/bt_setdialog_cancle"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dip"
+            android:layout_weight="1"
+            android:background="@drawable/dg_cancel_selector"
+            android:text="取消" />
+    </LinearLayout>
+
+</LinearLayout>

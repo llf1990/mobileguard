@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:background="#99ccff"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:text="设    置" />
+    <RelativeLayout 
+        android:onClick="changeStatus"
+        android:id="@+id/rl_setting_update"
+        android:background="@drawable/item_setting_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="8sp"
+        
+        >
+   	<com.android.mobileguard.ui.SwitchImageView 
+   	    android:id="@+id/siv_setting_status"
+   	    android:onClick="changeStatus"
+   	    android:layout_alignParentRight="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:src="@drawable/on"
+   	    
+   	    />
+
+   	<TextView
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="10dp"
+   	    android:padding="2dp"
+   	    android:text="自动更新设置"
+   	    android:textSize="16sp" />
+        
+    </RelativeLayout>
+
+</LinearLayout>
