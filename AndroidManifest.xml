@@ -10,6 +10,11 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS"/>
 
     <application
         android:allowBackup="true"
@@ -28,6 +33,23 @@
         </activity>
         <activity android:name="com.android.mobileguard.activities.HomeActivity"></activity>
         <activity android:name="com.android.mobileguard.activities.SettingActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.LostFindActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.SetFindStepOne"></activity>
+        <activity android:name="com.android.mobileguard.activities.SetFindStepSec"></activity>
+        <activity android:name="com.android.mobileguard.activities.SetFindStepThird"></activity>
+        <activity android:name="com.android.mobileguard.activities.SetFindStepFouth"></activity>
+        <activity android:name="com.android.mobileguard.activities.ContactSelectActivity"></activity>
+        <!-- 手机重启广播接受者 -->
+        <receiver android:name="com.android.mobileguard.ui.receiver.BootCompleteReceiver">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.android.mobileguard.ui.receiver.SmsReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

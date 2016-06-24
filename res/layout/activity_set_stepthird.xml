@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/text_title"
+        android:text="3.设置安全号码" />
+
+    <TextView
+        style="@style/text_menu"
+        android:text="SIM卡如果变化：" />
+
+    <TextView
+        style="@style/text_item"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="报警短信就会发送给安全号码" />
+    <EditText 
+        android:id="@+id/et_set_stepthird_pnum"
+        android:layout_width="match_parent"
+    	android:layout_height="50dp"
+    	android:hint="输入或选择安全号码"
+        
+        />
+
+    <Button
+        android:id="@+id/bt_set_stepthird_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dg_cancel_selector"
+        android:text="选择安全号码" />
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        
+        >
+        
+       <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/phone" />
+
+        <Button
+            android:id="@+id/bt_set_stepthird_next"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/dg_confirm_selector"
+            android:drawableRight="@drawable/next"
+            android:text="下一步"
+            android:textColor="#ffffff" />
+        <Button
+            android:id="@+id/bt_set_stepthird_pre"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/dg_confirm_selector"
+            android:drawableLeft="@drawable/previous"
+            android:text="上一步"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:src="@android:drawable/presence_invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:src="@android:drawable/presence_online" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:src="@android:drawable/presence_invisible" />
+        </LinearLayout>  
+        
+    </RelativeLayout>
+
+</LinearLayout>

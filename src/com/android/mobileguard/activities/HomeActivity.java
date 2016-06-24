@@ -34,6 +34,8 @@ public class HomeActivity extends Activity {
 	private GridView gv_home_item;
 	private Dialog dialog;
 	private SharedPreferences sp;
+	private Editor editor;
+	
 	
 	private String[] names = new String[]{"手机防盗","骚扰拦截","软件管家","进程管理","流量统计","手机杀毒","系统加速","常用功能"};
 	private int[] icons = new int[]{R.drawable.sjfd,R.drawable.srlj,R.drawable.rjgj,R.drawable.jcgl,R.drawable.lltj,R.drawable.sjsd,R.drawable.xtjs,R.drawable.cygj};
@@ -45,7 +47,7 @@ public class HomeActivity extends Activity {
 		setContentView(R.layout.activity_home);
 		
 		sp = getSharedPreferences("account", MODE_PRIVATE);//初始化sharedpreferences
-		
+		editor = sp.edit();
 		iv_home_log = (ImageView)findViewById(R.id.iv_home_log); 
 		gv_home_item = (GridView) findViewById(R.id.gv_home_item);
 		
@@ -83,6 +85,50 @@ public class HomeActivity extends Activity {
 	}
 	
 	protected void showInputDialog() {
+		AlertDialog.Builder builder = new Builder(this);
+		View view = View.inflate(this, R.layout.dialog_enterpwd, null);
+		builder.setView(view);
+		dialog = builder.show();
+		final EditText et_enter_pwd = (EditText) view.findViewById(R.id.et_enterdialog_pwd);
+		Button bt_enterdialog_confirm = (Button) view.findViewById(R.id.bt_enterdialog_confirm);
+		Button bt_enterdialog_cancle = (Button) view.findViewById(R.id.bt_enterdialog_cancle);
+		
+		bt_enterdialog_confirm.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				String pwd = et_enter_pwd.getText().toString().trim();
+				if(TextUtils.isEmpty(pwd) ){
+					Toast.makeText(HomeActivity.this, "密码不能为空", 0).show();
+					return;
+				}
+				String password = sp.getString("password", null);
+				if(!pwd.equals(password)){
+					Toast.makeText(HomeActivity.this, "密码错误", 0).show();
+					return;
+				}else{
+					dialog.dismiss();
+					Log.i(TAG, "进入找回主界面");
+					boolean config = sp.getBoolean("configed", false);
+					if(config){
+						Intent intent = new Intent(HomeActivity.this, LostFindActivity.class);
+						startActivity(intent);
+					}else{
+						Intent intent = new Intent(HomeActivity.this, SetFindStepOne.class);
+						startActivity(intent);
+					}
+					
+					
+				}
+			}
+		});
+		bt_enterdialog_cancle.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
 		
 	}
 
@@ -90,7 +136,6 @@ public class HomeActivity extends Activity {
 		AlertDialog.Builder builder = new Builder(this);
 		View view = View.inflate(this, R.layout.dialog_setpwd, null);
 		builder.setView(view);
-		builder.setCancelable(false);
 		dialog = builder.show();
 		final EditText et_setdialog_pwd = (EditText) view.findViewById(R.id.et_setdialog_pwd);
 		final EditText et_setdialog_confirm = (EditText) view.findViewById(R.id.et_setdialog_confirm);
@@ -111,10 +156,11 @@ public class HomeActivity extends Activity {
 					Toast.makeText(HomeActivity.this, "密码不一致", 0).show();
 					return;
 				}
-				Editor editor = sp.edit();
+				
 				editor.putString("password", pwd);
 				editor.commit();
 				dialog.dismiss();
+				showInputDialog();
 			}
 		});
 		

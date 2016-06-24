@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/text_title"
+        android:text="4.恭喜您，设置完成" />
+
+    <CheckBox
+        android:id="@+id/cb_set_stepfouth_protect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="打钩，开启防盗保护"
+        android:textSize="25sp" />
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#880000ff"
+        />
+
+    <TextView
+        android:id="@+id/tv_stepfouth_status"
+        style="@style/text_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#005DFF"
+        android:padding="5dp"
+        android:text="防盗保护已开启"
+        android:visibility="invisible" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/phone" />
+
+        <Button
+            android:id="@+id/bt_set_stepfouth_next"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/dg_confirm_selector"
+            android:drawableRight="@drawable/next"
+            android:text="完  成"
+            android:textColor="#ffffff" />
+
+        <Button
+            android:id="@+id/bt_set_stepfouth_pre"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/dg_confirm_selector"
+            android:drawableLeft="@drawable/previous"
+            android:text="上一步"
+            android:textColor="#ffffff" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/presence_invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:src="@android:drawable/presence_invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:src="@android:drawable/presence_invisible" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:src="@android:drawable/presence_online" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

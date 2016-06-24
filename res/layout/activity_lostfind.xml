@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/text_title"
+        android:text="手机防盗" >
+    </TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/tv_lostfind_title"
+            style="@style/text_item"
+            android:layout_width="wrap_content"
+            android:text="安全号码" />
+
+        <TextView
+            android:id="@+id/tv_lostfind_safephone"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+  			android:textSize="25sp"
+            android:text="110" />
+    </RelativeLayout>
+     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
+
+        <TextView
+            style="@style/text_item"
+            android:layout_width="wrap_content"
+            android:text="防盗保护是否开启" />
+
+        <ImageView
+            android:id="@+id/iv_lostfind_islock"
+            style="@style/text_item"
+            android:layout_width="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/unlock"/>
+    </RelativeLayout>
+     <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp" >
+
+        <TextView
+            style="@style/text_item"
+            android:layout_width="wrap_content"
+            android:text="重新进入设置向导" />
+
+        
+    </RelativeLayout>
+    <TextView
+        style="@style/text_menu"
+        android:text="功能简介"
+        android:background="#44000000"
+        
+        />
+    <TextView
+        style="@style/text_item"
+        android:text="GPS追踪#*location*#"
+        ></TextView>
+    <TextView
+        style="@style/text_item"
+        android:text="播放报警音乐#*alarm*#"
+        ></TextView>
+    <TextView
+        style="@style/text_item"
+        android:text="远程删除数据#*wipedata*#"
+        ></TextView>
+    <TextView
+        style="@style/text_item"
+        android:text="远程锁屏#*lockscreen*#"
+        ></TextView>
+    
+
+</LinearLayout>
