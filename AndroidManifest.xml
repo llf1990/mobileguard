@@ -19,6 +19,9 @@
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.RECEIVE_SMS"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_CALL_LOG"/>
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG"/>
 
     <application
         android:allowBackup="true"
@@ -46,6 +49,7 @@
         <activity android:name="com.android.mobileguard.activities.ContactSelectActivity"></activity>
         <activity android:name="com.android.mobileguard.activities.InterceptActivity"></activity>
         <activity android:name="com.android.mobileguard.activities.addBlackNumberActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.CommonToolsActivity"></activity>
        
         <!-- 手机重启广播接受者 -->
         <receiver android:name="com.android.mobileguard.ui.receiver.BootCompleteReceiver">

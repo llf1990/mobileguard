@@ -80,6 +80,11 @@ public class HomeActivity extends Activity {
 					startActivity(intent);
 					
 					break;
+				case 7:
+					intent = new Intent(HomeActivity.this,CommonToolsActivity.class);
+					startActivity(intent);
+					
+					break;
 				}
 			}
 

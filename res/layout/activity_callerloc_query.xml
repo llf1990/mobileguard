@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/text_title"
+        android:text="归属地查询" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="电话号码"
+        android:textSize="15dp" />
+
+    <EditText
+        android:id="@+id/et_addbalcknumber_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:background="@drawable/edit_confirm_selector"
+        android:hint="不能为空" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/bt_addblack_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/dg_confirm_selector"
+            android:text="查询" />
+		
+        
+    </LinearLayout>
+    <TextView 
+        	android:padding="10dp"
+         	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="归属地："
+        
+        />
+    <TextView
+        	android:id="@+id/tv_callerloc_result"
+        	android:layout_width="match_parent"
+            android:layout_height="match_parent"	
+        	
+        
+        />
+
+</LinearLayout>
