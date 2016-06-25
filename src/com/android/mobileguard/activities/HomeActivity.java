@@ -1,6 +1,7 @@
 package com.android.mobileguard.activities;
 
 import com.android.mobileguard.R;
+import com.android.mobileguard.utils.MD5Utils;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -52,14 +53,14 @@ public class HomeActivity extends Activity {
 		gv_home_item = (GridView) findViewById(R.id.gv_home_item);
 		
 		ObjectAnimator oa = ObjectAnimator.ofFloat(iv_home_log, "rotationY",45,90,135,180,225,270,315);
-		oa.setDuration(4500);
+		oa.setDuration(3000);
 		oa.setRepeatCount(ObjectAnimator.INFINITE);
 		oa.setRepeatMode(ObjectAnimator.RESTART);
 		oa.start();
 		
 		gv_home_item.setAdapter(new HomeAdapter());
 		gv_home_item.setOnItemClickListener(new OnItemClickListener() {
-
+		Intent intent;
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
@@ -75,6 +76,8 @@ public class HomeActivity extends Activity {
 					break;
 
 				case 1:
+					intent = new Intent(HomeActivity.this,InterceptActivity.class);
+					startActivity(intent);
 					
 					break;
 				}
@@ -103,7 +106,7 @@ public class HomeActivity extends Activity {
 					return;
 				}
 				String password = sp.getString("password", null);
-				if(!pwd.equals(password)){
+				if(!MD5Utils.encode(pwd).equals(password)){
 					Toast.makeText(HomeActivity.this, "√‹¬Î¥ÌŒÛ", 0).show();
 					return;
 				}else{
@@ -157,7 +160,7 @@ public class HomeActivity extends Activity {
 					return;
 				}
 				
-				editor.putString("password", pwd);
+				editor.putString("password", MD5Utils.encode(pwd));
 				editor.commit();
 				dialog.dismiss();
 				showInputDialog();
