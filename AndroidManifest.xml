@@ -74,6 +74,7 @@
         </receiver>
         
         <service android:name="com.android.mobileguard.service.LocationService"></service>
+        <service android:name="com.android.mobileguard.service.SmsCallSafeService"></service>
     </application>
 
 </manifest>

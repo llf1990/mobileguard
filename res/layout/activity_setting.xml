@@ -8,7 +8,7 @@
         android:id="@+id/textView1"
         android:background="#99ccff"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#ffffff"
@@ -19,7 +19,7 @@
         android:background="@drawable/item_setting_first"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:layout_marginTop="5sp"
+        android:layout_marginTop="10sp"
         android:layout_marginLeft="8sp"
         
         >
@@ -42,7 +42,39 @@
    	    android:layout_marginLeft="10dp"
    	    android:padding="2dp"
    	    android:text="自动更新设置"
-   	    android:textSize="16sp" />
+   	    android:textSize="25sp" />
+        
+    </RelativeLayout>
+     <RelativeLayout 
+        android:onClick="changeInterceptStatus"
+        android:id="@+id/rl_setting_intercept"
+        android:background="@drawable/middle_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="8sp"
+        
+        >
+   	<com.android.mobileguard.ui.SwitchImageView 
+   	    android:id="@+id/siv_setting_intercept"
+   	    android:onClick="changeStatus"
+   	    android:layout_alignParentRight="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:src="@drawable/on"
+   	    
+   	    />
+
+   	<TextView
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="10dp"
+   	    android:padding="2dp"
+   	    android:text="骚扰拦截"
+   	    android:textSize="25sp" />
         
     </RelativeLayout>
 

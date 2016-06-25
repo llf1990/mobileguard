@@ -19,7 +19,7 @@ public class InterceptDBOpenHelper extends SQLiteOpenHelper {
 	}
 
 	/**
-	 * 表存储黑名单 ，id 自动增长，phonenum电话号码，mode 拦截模式（1短信拦截、2电话拦截、3短信电话拦截）
+	 * 表存储黑名单 ，id 自动增长，phonenum电话号码，mode 拦截模式（1短信电话拦截 2短信拦截、3电话拦截）
 	 */
 	@Override
 	

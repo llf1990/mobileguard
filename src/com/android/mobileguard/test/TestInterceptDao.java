@@ -1,5 +1,7 @@
 package com.android.mobileguard.test;
 
+import java.util.Random;
+
 import com.android.mobileguard.db.dao.InterceptDao;
 
 import android.test.AndroidTestCase;
@@ -13,8 +15,12 @@ public class TestInterceptDao extends AndroidTestCase {
 	
 	public void testAdd(){
 		InterceptDao dao = new InterceptDao(getContext());
-		for(int i = 1 ; i < 10 ; i++){
-			dao.add("1388888888"+i, "1");
+		int origin = 1388888888;
+		Random r = new Random();
+		
+		for(int i = 1 ; i < 5000 ; i++){
+			Integer flag = r.nextInt(3)+1;
+			dao.add(Integer.toString(origin+i), flag.toString());
 		}
 	}
 	public void testdelete(){

@@ -13,20 +13,53 @@
             android:text="骚扰拦截" />
 
         <ImageView
-            android:onClick="addBlackNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
             android:clickable="true"
+            android:onClick="addBlackNumber"
             android:src="@drawable/blacknumber_add_selector" />
     </RelativeLayout>
 
-    <ListView
-        android:id="@+id/lv_intercept_blacklist"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
-    </ListView>
+		<ImageView
+		    android:id="@+id/iv_intercept_empty"
+		    android:visibility="invisible" 
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/empty"
+		    />
+        <ListView
+            android:id="@+id/lv_intercept_blacklist"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fastScrollEnabled="true" >
+        </ListView>
+
+        <RelativeLayout
+            android:id="@+id/rl_intercept_loadingpro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible" >
+
+            <ProgressBar
+                android:id="@+id/pb_intercept_load"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pb_intercept_load"
+                android:layout_centerInParent="true"
+                android:text="正在加载中..." />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </LinearLayout>

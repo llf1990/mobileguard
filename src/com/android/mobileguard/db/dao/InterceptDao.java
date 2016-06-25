@@ -1,10 +1,13 @@
 package com.android.mobileguard.db.dao;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.android.mobileguard.bean.BlackNumber;
 import com.android.mobileguard.db.InterceptDBOpenHelper;
 
 public class InterceptDao {
@@ -78,6 +81,22 @@ public class InterceptDao {
 		db.close();
 		cursor.close();
 		return mode;
+	}
+	public ArrayList<BlackNumber> findAll(){
+		ArrayList<BlackNumber> list = new ArrayList<BlackNumber>();
+		SQLiteDatabase db = helper.getReadableDatabase();
+		Cursor cursor = db.query("blacknumber", new String[]{"phonenum","mode"},null, null, null, null, null);
+		while(cursor.moveToNext()){
+			String  phone= cursor.getString(0);
+			String mode = cursor.getString(1);
+			BlackNumber bn = new BlackNumber();
+			bn.setBlackNumber(phone);
+			bn.setMode(mode);
+			list.add(bn);
+		}
+		db.close();
+		cursor.close();
+		return list;
 	}
 
 }

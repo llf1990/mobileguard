@@ -16,14 +16,18 @@
         android:textSize="15dp" />
 
     <EditText
+        android:id="@+id/et_addbalcknumber_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:background="@drawable/edit_confirm_selector"
         android:hint="不能为空" />
 
     <RadioGroup
-        android:checkedButton="@+id/rb_mode_msg"
+        android:id="@+id/rg_mode_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:checkedButton="@+id/rb_mode_all"
         android:orientation="horizontal"
         android:padding="15dp" >
 
@@ -50,25 +54,26 @@
     </RadioGroup>
 
     <LinearLayout
-        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-         >
+        android:padding="10dp" >
 
         <Button
+            android:id="@+id/bt_addblack_confirm"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="确定"
-            android:background="@drawable/dg_confirm_selector" />
+            android:layout_weight="1"
+            android:background="@drawable/dg_confirm_selector"
+            android:text="确定" />
 
         <Button
+            android:id="@+id/bt_addblack_cancel"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="取消"
-            android:background="@drawable/dg_cancel_selector" />
+            android:layout_weight="1"
+            android:background="@drawable/dg_cancel_selector"
+            android:text="取消" />
     </LinearLayout>
 
 </LinearLayout>
