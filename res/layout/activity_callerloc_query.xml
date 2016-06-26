@@ -16,7 +16,7 @@
         android:textSize="15dp" />
 
     <EditText
-        android:id="@+id/et_addbalcknumber_number"
+        android:id="@+id/et_locaitonquery_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="phone"
@@ -31,10 +31,9 @@
         android:padding="10dp" >
 
         <Button
-            android:id="@+id/bt_addblack_confirm"
+            android:id="@+id/bt_locationquery_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:background="@drawable/dg_confirm_selector"
             android:text="查询" />
 		
@@ -50,6 +49,8 @@
         />
     <TextView
         	android:id="@+id/tv_callerloc_result"
+        	android:textSize="20sp"
+        	android:padding="15dp"
         	android:layout_width="match_parent"
             android:layout_height="match_parent"	
         	

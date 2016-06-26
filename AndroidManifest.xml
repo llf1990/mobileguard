@@ -50,6 +50,7 @@
         <activity android:name="com.android.mobileguard.activities.InterceptActivity"></activity>
         <activity android:name="com.android.mobileguard.activities.addBlackNumberActivity"></activity>
         <activity android:name="com.android.mobileguard.activities.CommonToolsActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.CallerLocQueryActivity"></activity>
        
         <!-- 手机重启广播接受者 -->
         <receiver android:name="com.android.mobileguard.ui.receiver.BootCompleteReceiver">

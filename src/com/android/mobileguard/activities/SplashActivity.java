@@ -1,6 +1,7 @@
 package com.android.mobileguard.activities;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -87,7 +88,7 @@ public class SplashActivity extends Activity {
 				}
 			};
 		}
-
+		copyAddressDB();
 	}
 
 	protected void showUpdateDialog(String desc) {
@@ -245,6 +246,34 @@ public class SplashActivity extends Activity {
 
 		}
 
+	}
+	private void copyAddressDB(){
+		final File file = new File(getFilesDir(),"address.db");
+		if(file.exists() && file.length() > 0){
+			Log.i(TAG,"数据库已存在，无需拷贝");
+			
+		}else{
+			//如果不存在，在子线程进行拷贝
+			new Thread(){
+				public void run(){
+					
+					try {
+						InputStream is = getAssets().open("address.db");
+						FileOutputStream fos = new FileOutputStream(file);
+						byte [] buffer = new byte[2048];
+						int len;
+						while((len = is.read(buffer)) != -1){ 
+							fos.write(buffer, 0, len);
+						}
+						fos.close();
+						is.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}.start();
+		}
+		
 	}
 
 }
