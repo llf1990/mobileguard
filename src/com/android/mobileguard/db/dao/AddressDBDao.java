@@ -44,7 +44,7 @@ public class AddressDBDao {
 					cursor = db.rawQuery("select location from data2 where area = ?", new String[]{number.substring(1, 3)});
 					if(cursor.moveToNext()){
 						String temp = cursor.getString(0);
-						location = temp.substring(0,temp.length()-2);
+						location = temp.substring(0,temp.length()-2);//过滤运营商信息（联通、移动、电信）
 					}
 					cursor = db.rawQuery("select location from data2 where area = ?", new String[]{number.substring(1, 4)});
 					if(cursor.moveToNext()){
