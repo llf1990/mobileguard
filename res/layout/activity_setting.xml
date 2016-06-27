@@ -77,5 +77,59 @@
    	    android:textSize="25sp" />
         
     </RelativeLayout>
+    <RelativeLayout 
+        android:onClick="showlocationswitch"
+        android:id="@+id/rl_setting_showlocation"
+        android:background="@drawable/middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="8sp"
+        
+        >
+   	<com.android.mobileguard.ui.SwitchImageView 
+   	    android:id="@+id/siv_setting_showlocation"
+   	    android:onClick="changeStatus"
+   	    android:layout_alignParentRight="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:src="@drawable/on"
+   	    
+   	    />
+
+   	<TextView
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="10dp"
+   	    android:padding="2dp"
+   	    android:text="来电显示归属地"
+   	    android:textSize="25sp" />
+        
+    </RelativeLayout>
+    <RelativeLayout 
+        android:onClick="setCallerlocStyle"
+        android:id="@+id/rl_setting_showlocation"
+        android:background="@drawable/last_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="8sp"
+        
+        >
+
+   	<TextView
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="10dp"
+   	    android:padding="2dp"
+   	    android:text="设置归属地显示风格"
+   	    android:textSize="25sp" />
+        
+    </RelativeLayout>
 
 </LinearLayout>
