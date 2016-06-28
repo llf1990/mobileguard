@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    >
+    <ImageView
+        android:id="@+id/iv_appicon" 
+        android:layout_width="80dp"
+    	android:layout_height="wrap_content"  
+        android:src="@drawable/ic_launcher"
+        />
+	<TextView 
+	    android:id="@+id/tv_appname" 
+	    android:layout_toRightOf="@id/iv_appicon"
+	    android:textSize="20sp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+	   android:text="应用名称"
+	    />
+	<TextView 
+	    android:id="@+id/tv_appsize" 
+	    android:layout_toRightOf="@id/iv_appicon"
+	    android:layout_below="@+id/tv_appname"
+	    android:textSize="15sp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+	   
+	    />
+	<CheckBox 
+	    android:layout_alignParentRight="true"
+	    android:gravity="center"
+	    android:layout_marginRight="20sp"
+	    android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+	    />
+	
+</RelativeLayout>

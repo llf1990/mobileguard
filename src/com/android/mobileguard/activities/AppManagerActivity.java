@@ -13,6 +13,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -37,6 +38,7 @@ import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AppManagerActivity extends Activity implements OnClickListener {
 	
@@ -273,14 +275,43 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 			break;
 
 		case R.id.ll_appman_start:
-			
+			startApplication();
 			break;
 		case R.id.ll_appman_share:
-	
+			shareApplication();
 			break;
 		case R.id.ll_appman_information:
-	
+			showApplicationInfo();
 			break;
+		}
+	}
+	private void showApplicationInfo() {
+		Intent intent = new Intent();
+		intent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+		intent.addCategory(Intent.CATEGORY_DEFAULT);
+		intent.setData(Uri.parse("package:"+appinfo.getPackageName()));
+		startActivity(intent);
+	}
+	/**
+	 * <action android:name="android.intent.action.SEND" />
+	 *  <category android:name="android.intent.category.DEFAULT" />
+	 *  <data android:mimeType="text/plain" />
+	 */
+	private void shareApplication() {
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.SEND");
+		intent.addCategory("android.intent.category.DEFAULT");
+		intent.setType("text/plain");
+		intent.putExtra(Intent.EXTRA_TEXT, "推荐一款很好用的软件,"+appinfo.getAppName());
+		startActivity(intent);
+	}
+	private void startApplication() {
+		PackageManager pm = getPackageManager();
+		Intent intent = pm.getLaunchIntentForPackage(appinfo.getPackageName());
+		if(intent != null){
+			startActivity(intent);
+		}else{
+			Toast.makeText(this, "程序不能启动", 0).show();
 		}
 	}
 	@Override
