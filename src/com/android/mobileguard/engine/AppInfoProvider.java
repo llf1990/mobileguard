@@ -28,7 +28,7 @@ public class AppInfoProvider {
 		//PackageManager包管理器
 		PackageManager pm = context.getPackageManager();
 		List<PackageInfo> list = pm.getInstalledPackages(0);
-		List<AppInfo> alist = new ArrayList<AppInfo>();
+		List<AppInfo> applist = new ArrayList<AppInfo>();
 		for (PackageInfo appInfo : list) {
 			AppInfo ainfo = new AppInfo();
 			ainfo.setAppName(appInfo.packageName);
@@ -40,16 +40,20 @@ public class AppInfoProvider {
 			int flag  = appInfo.applicationInfo.flags;
 			if((flag & ApplicationInfo.FLAG_SYSTEM) != 0){
 			//系统应用
+				ainfo.setSystem(true);
 			}else{
 				//用户应用
+				ainfo.setSystem(false);
 			}
 			if((flag &ApplicationInfo.FLAG_EXTERNAL_STORAGE) != 0){
 				//安装在sd卡
+				ainfo.setInRom(false);
 			}else{
 				//安装在内存
+				ainfo.setInRom(true);
 			}
-			alist.add(ainfo);
+			applist.add(ainfo);
 		}
-		return alist;
+		return applist;
 	}
 }
