@@ -9,22 +9,36 @@ import com.android.mobileguard.engine.AppInfoProvider;
 import com.android.mobileguard.utils.SystemInfoUtils;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class AppManagerActivity extends Activity {
+public class AppManagerActivity extends Activity implements OnClickListener {
 	
 	private static final String TAG = "AppManagerActivity";
 	private TextView tv_internal_freesize;
@@ -37,7 +51,13 @@ public class AppManagerActivity extends Activity {
 	private ProgressBar pb;
 	private TextView tv_appman_loading;
 	private TextView tv_appman_desctotal;
-	
+	private PopupWindow popup;
+	private LinearLayout ll_appman_uninstall;
+	private LinearLayout ll_appman_start;
+	private LinearLayout ll_appman_share;
+	private LinearLayout ll_appman_information;
+	private AppInfo appinfo;
+	private View itemview;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -51,6 +71,8 @@ public class AppManagerActivity extends Activity {
 		tv_appman_loading = (TextView) findViewById(R.id.tv_appman_loading);
 		tv_appman_desctotal = (TextView) findViewById(R.id.tv_appman_desctotal);
 		
+		
+		
 		//给listview注册滚动监听器，实现悬浮textview动态更新
 		lv_appmanger_applist.setOnScrollListener(new OnScrollListener() {
 			
@@ -62,6 +84,10 @@ public class AppManagerActivity extends Activity {
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount) {
+				if(popup != null){
+					popup.dismiss();
+					popup = null;
+				}
 				if(userlist != null && syslist != null){
 					if (firstVisibleItem > userlist.size()) {
 
@@ -73,6 +99,8 @@ public class AppManagerActivity extends Activity {
 			  }
 			}
 		});
+		
+		setOnListviewitemClick();
 		
 		String internalsize = Formatter.formatFileSize(this, SystemInfoUtils.getInternalStorageAvailableSize());
 		String externalsize = Formatter.formatFileSize(this, SystemInfoUtils.getExternalStorageAvailableSize());
@@ -107,6 +135,58 @@ public class AppManagerActivity extends Activity {
 		
 		
 	}
+	//listview注册点击事件，弹出悬浮窗体
+	private void setOnListviewitemClick() {
+		lv_appmanger_applist.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				AppInfo appinfo;
+				if(position == 0){//显示用户应用数量条目
+					return;
+				}else if(position == userlist.size()+1){//显示系统应用数量条目
+					return;
+				}else if(position <= userlist.size() ){
+					int newPosition = position - 1;
+					appinfo = userlist.get(newPosition);
+				}else{
+					int newPosition = position - 2 - userlist.size();
+					appinfo = syslist.get(newPosition);
+				}
+					
+					itemview = View.inflate(AppManagerActivity.this,R.layout.item_appman_popwindow, null);
+				    if(popup != null){//检查是否已有悬浮窗体，有则关闭
+				    	popup.dismiss();
+				    	popup= null;
+				    }
+				    //初始化弹窗按钮
+				    ll_appman_uninstall = (LinearLayout) itemview.findViewById(R.id.ll_appman_uninstall);
+					ll_appman_start = (LinearLayout) itemview.findViewById(R.id.ll_appman_start);
+					ll_appman_share = (LinearLayout) itemview.findViewById(R.id.ll_appman_share);
+					ll_appman_information = (LinearLayout) itemview.findViewById(R.id.ll_appman_information);
+					//注册点击事件
+					ll_appman_uninstall.setOnClickListener(AppManagerActivity.this);
+					ll_appman_start.setOnClickListener(AppManagerActivity.this);
+					ll_appman_share.setOnClickListener(AppManagerActivity.this);
+					ll_appman_information.setOnClickListener(AppManagerActivity.this);
+					
+				    //新建一个popup实例对象
+				    //注意，要popupwindow播放动画，一定要先设置背景颜色，可透明
+				    popup= new PopupWindow(itemview,-2,-2);
+				    popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+					int[] location = new int[2];
+					view.getLocationInWindow(location);
+					popup.showAtLocation(parent, Gravity.LEFT+Gravity.TOP, 200, location[1]);
+					//播放动画
+					ScaleAnimation sa = new ScaleAnimation(0.3f,1.0f, 0.3f, 1.0f, Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0.5f);
+					sa.setDuration(500);
+					itemview.startAnimation(sa);
+			}
+			
+		}); 
+		
+	}
 	private class MyAdapter extends BaseAdapter{
 
 		@Override
@@ -128,7 +208,7 @@ public class AppManagerActivity extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View view = null;
 			ViewHolder holder;
-			AppInfo appinfo;
+			
 			if(position == 0){//显示用户应用数量条目
 				TextView tv = new TextView(getApplicationContext());
 				tv.setText("用户程序 "+userlist.size()+" 个");
@@ -185,5 +265,69 @@ public class AppManagerActivity extends Activity {
 			TextView tv_appsize;
 			ImageView iv_install_location;
 		}
+	}
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.ll_appman_uninstall:
+			uninstallApplication();
+			break;
+
+		case R.id.ll_appman_start:
+			
+			break;
+		case R.id.ll_appman_share:
+	
+			break;
+		case R.id.ll_appman_information:
+	
+			break;
+		}
+	}
+	@Override
+	protected void onDestroy() {
+		if(popup != null){
+			popup.dismiss();
+			popup = null;
+		}
+		super.onDestroy();
+	}
+	
+	public void uninstallApplication(){
+		//注册程序卸载广播接收者
+		AppUninstallReceiver receiver = new AppUninstallReceiver();
+		IntentFilter filter = new IntentFilter();
+		filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+		filter.addDataScheme("package");
+		registerReceiver(receiver, filter);
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.DELETE");
+		intent.addCategory("android.intent.category.DEFAULT");
+		intent.setData(Uri.parse("package:"+appinfo.getPackageName()));
+		startActivity(intent);
+		//根据应用程序是否被卸载掉更新界面UI
+		
+	}
+	private class AppUninstallReceiver extends BroadcastReceiver{
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String data = intent.getData().toString();
+			String appname = data.replace("package:", "");
+			System.out.println(appname);
+			unregisterReceiver(this);
+			//更新UI界面
+			AppInfo  appinfotemp = null;
+			for (AppInfo appinfo : userlist) {
+				if(appname != null && appname.equals(appinfo.getPackageName())){
+					appinfotemp = appinfo;
+				}
+			}
+			if(appinfotemp != null){
+				userlist.remove(appinfotemp);
+			}
+			adapter.notifyDataSetChanged();
+		}
+		
 	}
 }
