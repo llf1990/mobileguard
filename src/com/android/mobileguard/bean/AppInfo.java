@@ -47,5 +47,9 @@ public class AppInfo {
 	public void setAppIcon(Drawable appIcon) {
 		this.appIcon = appIcon;
 	}
+	@Override
+	public String toString() {
+		return packageName;
+	}
 	
 }

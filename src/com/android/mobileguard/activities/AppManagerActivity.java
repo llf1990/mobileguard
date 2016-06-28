@@ -142,7 +142,6 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				AppInfo appinfo;
 				if(position == 0){//显示用户应用数量条目
 					return;
 				}else if(position == userlist.size()+1){//显示系统应用数量条目
@@ -294,6 +293,7 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 	}
 	
 	public void uninstallApplication(){
+		Log.i(TAG,appinfo.toString());
 		//注册程序卸载广播接收者
 		AppUninstallReceiver receiver = new AppUninstallReceiver();
 		IntentFilter filter = new IntentFilter();
@@ -314,7 +314,6 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 		public void onReceive(Context context, Intent intent) {
 			String data = intent.getData().toString();
 			String appname = data.replace("package:", "");
-			System.out.println(appname);
 			unregisterReceiver(this);
 			//更新UI界面
 			AppInfo  appinfotemp = null;
