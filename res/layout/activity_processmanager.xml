@@ -13,53 +13,84 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:textSize="20sp"
-            android:layout_marginLeft="15sp"
             android:id="@+id/tv_process_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="进程数量：" />
+            android:layout_marginLeft="15sp"
+            android:text="进程数量："
+            android:textSize="20sp" />
 
         <TextView
-            android:textSize="20sp"
-            android:layout_marginRight="15sp"
             android:id="@+id/tv_process_memory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="内存已用/总共" />
+            android:layout_marginRight="15sp"
+            android:text="内存已用/总共"
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <FrameLayout
+        android:id="@+id/rl_process_loadinglayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <ListView
-            android:id="@+id/lv_pro_infolist"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-        </ListView>
+        android:layout_height="wrap_content" >
 
         <RelativeLayout
-            android:id="@+id/rl_process_loadinglayout"
-            android:visibility="invisible"
-            android:layout_gravity="center"
+            
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="invisible" >
 
             <ProgressBar
-                android:layout_centerHorizontal="true"
                 android:id="@+id/pb_process_loading"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true" />
 
             <TextView
-                android:layout_below="@+id/pb_process_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/pb_process_loading"
                 android:text="正在加载中..." />
         </RelativeLayout>
     </FrameLayout>
-
+	
+	    
+	
+    <ListView
+        android:id="@+id/lv_pro_infolist"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"
+         >
+    </ListView>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+	    >
+    <Button
+        android:id="@+id/bt_kill_process"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="一件清理" />
+    <Button 
+       android:onClick="selectall"
+        android:layout_width="0dp"
+         android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="全选" 
+        
+        />
+     <Button 
+       android:onClick="clearall"
+         android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="反选" 
+        
+        />
+	</LinearLayout>
 </LinearLayout>

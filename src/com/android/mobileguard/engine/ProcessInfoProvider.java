@@ -26,7 +26,7 @@ public class ProcessInfoProvider {
 			ProcessInfo pinfo = new ProcessInfo();
 			String packName = runningProInfo.processName;
 			pinfo.setPackName(packName);
-			long memSize = am.getProcessMemoryInfo(new int[]{runningProInfo.pid})[0].getTotalPrivateDirty()/2014;
+			long memSize = am.getProcessMemoryInfo(new int[]{runningProInfo.pid})[0].getTotalPrivateDirty()*1024;
 			pinfo.setMemSize(memSize);
 			try {
 				PackageInfo packinfo = pm.getPackageInfo(packName, 0);

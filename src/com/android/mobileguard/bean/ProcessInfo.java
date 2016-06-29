@@ -8,6 +8,7 @@ public class ProcessInfo {
 	private String packName;	//应用包名
 	private long memSize;	//内存占用大小
 	private boolean isSys;	//是否系统进行
+	private boolean ischecked;//checkbox的备选状态
 	public Drawable getAppIcon() {
 		return appIcon;
 	}
@@ -43,6 +44,12 @@ public class ProcessInfo {
 		return "ProcessInfo [appIcon=" + appIcon + ", appName=" + appName
 				+ ", packName=" + packName + ", memSize=" + memSize
 				+ ", isSys=" + isSys + "]";
+	}
+	public boolean isIschecked() {
+		return ischecked;
+	}
+	public void setIschecked(boolean ischecked) {
+		this.ischecked = ischecked;
 	}
 	
 }
