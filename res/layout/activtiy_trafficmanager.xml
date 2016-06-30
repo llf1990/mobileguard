@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:orientation="vertical" >
+
+    <TextView
+        style="@style/text_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="流量统计" >
+    </TextView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="手机总统计(移动+wifi)" >
+            </TextView>
+            <TextView
+                android:id="@+id/tv_traffic_total"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MB" >
+            </TextView>
+
+            <TextView
+                
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="手机移动总统计(2G/3G/4G)" >
+            </TextView>
+            <TextView
+                android:id="@+id/tv_traffic_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MB" >
+            </TextView>
+        </LinearLayout>
+
+        <SlidingDrawer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:content="@+id/content"
+            android:handle="@+id/handle"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@id/handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/animate_sms_check_1" />
+
+            <LinearLayout
+                android:id="@id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#22000000"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="我是handle里面的文本" />
+            </LinearLayout>
+        </SlidingDrawer>
+    </FrameLayout>
+
+</LinearLayout>

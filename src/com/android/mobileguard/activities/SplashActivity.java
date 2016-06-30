@@ -76,6 +76,9 @@ public class SplashActivity extends Activity {
 
 		version = PackageInfoUtils.getPackageVersion(this);
 		tv_splash_version.setText("版本号：" + version + "\n©2016版权所有");
+		
+		
+		
 		SharedPreferences sp = getSharedPreferences("settingconfig",
 				MODE_PRIVATE);
 		boolean update = sp.getBoolean("status", true);

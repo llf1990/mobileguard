@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.mobileguard.R;
 import com.android.mobileguard.bean.ProcessInfo;
@@ -41,6 +42,8 @@ public class ProcessManagerActivity extends Activity {
 	private ProcessInfo pinfo;
 	private CheckBox cb_process_select;
 	private Button bt_kill_process; // 清理所有进程
+	private int runningnumber;
+	private long memsize;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +55,7 @@ public class ProcessManagerActivity extends Activity {
 		lv_pro_infolist = (ListView) findViewById(R.id.lv_pro_infolist);
 		rl_process_loadinglayout = (FrameLayout) findViewById(R.id.rl_process_loadinglayout);
 		bt_kill_process = (Button) findViewById(R.id.bt_kill_process);
-
+		adapter = new Myadpater();
 		updateData();
 
 		lv_pro_infolist.setOnItemClickListener(new OnItemClickListener() {
@@ -63,6 +66,9 @@ public class ProcessManagerActivity extends Activity {
 				Object obj = lv_pro_infolist.getItemAtPosition(position);
 				if (obj != null) {
 					ProcessInfo proinfo = (ProcessInfo) obj;
+					if(proinfo.getPackName().equals(getPackageName())){
+						return;
+					}
 					cb_process_select = (CheckBox) view
 							.findViewById(R.id.cb_process_select);
 					if (proinfo.isIschecked()) {
@@ -101,16 +107,15 @@ public class ProcessManagerActivity extends Activity {
 	}
 
 	private void updateData() {
-		
-		tv_process_number.setText("运行进程：" + getRunningProcess() + "个");
-
-		String avaiMem = Formatter.formatFileSize(this, getMemoryAvaliable());
+		runningnumber = getRunningProcess();
+		tv_process_number.setText("运行进程：" + runningnumber + "个");
+		memsize = getMemoryAvaliable();
+		String avaiMem = Formatter.formatFileSize(this, memsize);
 
 		tv_process_memory.setText("内存可用:" + avaiMem);
-		adapter = new Myadpater();
+		rl_process_loadinglayout.setVisibility(View.VISIBLE);
 		new Thread() {
 			public void run() {
-				rl_process_loadinglayout.setVisibility(View.VISIBLE);
 				list = ProcessInfoProvider.getRunningProcessInfo(ProcessManagerActivity.this);
 				syslist = new ArrayList<ProcessInfo>();
 				userlist = new ArrayList<ProcessInfo>();
@@ -131,7 +136,10 @@ public class ProcessManagerActivity extends Activity {
 			}
 		}.start();
 	}
-
+	/**
+	 * 获取系统当前运行进程数量
+	 * @return
+	 */
 	public int getRunningProcess() {
 		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 		return am.getRunningAppProcesses().size();
@@ -219,6 +227,9 @@ public class ProcessManagerActivity extends Activity {
 						.findViewById(R.id.cb_process_select);
 				view.setTag(holder);
 			}
+			if(pinfo.getPackName().equals(getPackageName())){
+				holder.ck_process_select.setVisibility(View.INVISIBLE);
+			}
 			holder.iv_appicon.setImageDrawable(pinfo.getAppIcon());
 			holder.tv_appname.setText(pinfo.getAppName());
 			holder.tv_appsize.setText("占用内存："
@@ -241,6 +252,43 @@ public class ProcessManagerActivity extends Activity {
 		}
 
 	}
+	public void killProcess(View view){
+		ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+		List <ProcessInfo> killedProcess = new ArrayList<ProcessInfo>();
+		for(ProcessInfo pinfo: syslist ){
+			if(pinfo.isIschecked()){
+				am.killBackgroundProcesses(pinfo.getPackName());
+				killedProcess.add(pinfo);
+			}
+		}
+		for(ProcessInfo pinfo: userlist ){
+			if(pinfo.isIschecked()){
+				am.killBackgroundProcesses(pinfo.getPackName());
+				killedProcess.add(pinfo);
+			}
+		}
+		long releasespace = 0;
+		for(ProcessInfo pinfo : killedProcess){
+			releasespace += pinfo.getMemSize();
+			if(pinfo.isSys()){
+				syslist.remove(pinfo);
+			}else{
+				userlist.remove(pinfo);
+			}
+		}
+		adapter.notifyDataSetChanged();
+		String size = Formatter.formatFileSize(this, releasespace);
+		Toast.makeText(ProcessManagerActivity.this, "清理进程"+killedProcess.size()+"个，释放空间："+size, 1).show();
+		
+		runningnumber -= killedProcess.size();
+		tv_process_number.setText("运行进程：" + runningnumber + "个");
+		memsize += releasespace;
+		String avaiMem = Formatter.formatFileSize(this, memsize);
+		tv_process_memory.setText("内存可用:" + avaiMem);
+	
+	}
+	
+	
 	/**
 	 * 一键全选
 	 * @param view
@@ -252,9 +300,13 @@ public class ProcessManagerActivity extends Activity {
 		for(ProcessInfo pinfo: syslist){
 			pinfo.setIschecked(true);
 		}
+		adapter.notifyDataSetChanged();
 	}
 	
-	
+	/**
+	 * 一键反选
+	 * @param view
+	 */
 	public void clearall(View view){
 		for(ProcessInfo pinfo: userlist){
 			pinfo.setIschecked(!pinfo.isIschecked());
@@ -262,5 +314,6 @@ public class ProcessManagerActivity extends Activity {
 		for(ProcessInfo pinfo: syslist){
 			pinfo.setIschecked(!pinfo.isIschecked());
 		}
+		adapter.notifyDataSetChanged();
 	}
 }
