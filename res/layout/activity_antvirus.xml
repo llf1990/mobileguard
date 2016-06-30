@@ -38,6 +38,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_scan_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -45,7 +46,8 @@
             </TextView>
 
             <ProgressBar
-                android:id="@+id/progressBar1"
+                android:progressDrawable="@drawable/progress_horizontal"
+                android:id="@+id/pb_antivirus_process"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -53,12 +55,17 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_antvirus_list"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" 
-        >
-    </LinearLayout>
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:id="@+id/ll_antvirus_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

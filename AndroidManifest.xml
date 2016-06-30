@@ -77,8 +77,10 @@
         </activity>
         <activity android:name="com.android.mobileguard.activities.TrafficManagerActivity" >
         </activity>
-		<activity android:name="com.android.mobileguard.activities.AntvirusActivity"></activity>
-        
+		<activity android:name="com.android.mobileguard.activities.AntvirusActivity" android:screenOrientation="portrait">
+		</activity>
+        <activity android:name="com.android.mobileguard.activities.SysAccelerateActivity">
+        </activity>
         
         <!-- 手机重启广播接受者 -->
         <receiver android:name="com.android.mobileguard.ui.receiver.BootCompleteReceiver" >
@@ -125,6 +127,8 @@
         <service android:name="com.android.mobileguard.service.RocketService" >
         </service>
         <service android:name="com.android.mobileguard.service.UpdatewidgetService" >
+        </service>
+        <service android:name="com.android.mobileguard.service.UpdateVirusDBService">
         </service>
     </application>
 

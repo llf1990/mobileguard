@@ -11,6 +11,7 @@ import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.android.mobileguard.service.UpdateVirusDBService;
 import com.android.mobileguard.utils.PackageInfoUtils;
 import com.android.mobileguard.utils.StreamTools;
 import com.android.mobileguard.R;
@@ -91,7 +92,10 @@ public class SplashActivity extends Activity {
 				}
 			};
 		}
-		copyAddressDB();
+		copyDB("address.db");
+		copyDB("antivirus.db");
+		Intent intent = new Intent(this,UpdateVirusDBService.class);
+		startService(intent);
 	}
 
 	protected void showUpdateDialog(String desc) {
@@ -250,8 +254,8 @@ public class SplashActivity extends Activity {
 		}
 
 	}
-	private void copyAddressDB(){
-		final File file = new File(getFilesDir(),"address.db");
+	private void copyDB(final String dbname){
+		final File file = new File(getFilesDir(),dbname);
 		if(file.exists() && file.length() > 0){
 			Log.i(TAG,"数据库已存在，无需拷贝");
 			
@@ -261,7 +265,7 @@ public class SplashActivity extends Activity {
 				public void run(){
 					
 					try {
-						InputStream is = getAssets().open("address.db");
+						InputStream is = getAssets().open(dbname);
 						FileOutputStream fos = new FileOutputStream(file);
 						byte [] buffer = new byte[2048];
 						int len;
