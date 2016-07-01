@@ -3,10 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    <RelativeLayout 
+        android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+        >
     <TextView 
         style="@style/text_title"
         android:text="清理缓存"
         />
+    
+    <Button
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/bt_cache_cleanall" 
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+        android:text="全部清除"
+        />
+    
+    </RelativeLayout>
 	<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,13 +43,19 @@
                 
                 android:text="正在扫描..." >
             </TextView>
+            <ScrollView 
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                >
             <LinearLayout
                 android:id="@+id/ll_frame_cache"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-                
+              
         	</LinearLayout>
+        	</ScrollView>  
     </LinearLayout>
 </LinearLayout>

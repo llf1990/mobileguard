@@ -20,7 +20,7 @@ public class CommonToolsActivity extends Activity {
 	private RelativeLayout rl_setting_rocket;
 	private ProgressDialog pd ;
 	private ProgressBar pb;
-	
+	private boolean rocketswitch;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +34,18 @@ public class CommonToolsActivity extends Activity {
 		startActivity(intent);
 	}
 	
+	@SuppressWarnings("unused")
 	public void rocketswitch (View view){
-		Intent intent = new Intent(CommonToolsActivity.this,RocketService.class );
-		Log.i(TAG, "服务开启");
-		startService(intent);
+		Intent intent  = new Intent(CommonToolsActivity.this,RocketService.class );
+		if(!rocketswitch){
+				Log.i(TAG, "服务开启");
+				startService(intent);
+				rocketswitch = true;
+			}else{
+				stopService(intent);
+				rocketswitch = false;
+			}
+		
 	}
 	
 	public void smsBackup(View view){
@@ -65,6 +73,9 @@ public class CommonToolsActivity extends Activity {
 			}
 		}.start();
 	}
-	
+	public void enterAppLock(View view){
+		Intent intent = new Intent(this,AppLockActivity.class);
+		startActivity(intent);
+	}
 	
 }

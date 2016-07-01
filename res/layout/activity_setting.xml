@@ -109,6 +109,38 @@
    	    android:textSize="25sp" />
         
     </RelativeLayout>
+     <RelativeLayout 
+        android:onClick="openwatchdog"
+        android:id="@+id/rl_setting_openwatchdog"
+        android:background="@drawable/middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="8sp"
+        
+        >
+   	<com.android.mobileguard.ui.SwitchImageView 
+   	    android:id="@+id/siv_setting_watchdog"
+   	    android:onClick="changeStatus"
+   	    android:layout_alignParentRight="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:src="@drawable/on"
+   	    
+   	    />
+
+   	<TextView
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="10dp"
+   	    android:padding="2dp"
+   	    android:text="开启看门狗"
+   	    android:textSize="25sp" />
+        
+    </RelativeLayout>
     <RelativeLayout 
         android:onClick="setCallerlocStyle"
         android:id="@+id/rl_setting_showlocation"

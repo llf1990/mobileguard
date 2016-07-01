@@ -3,6 +3,7 @@ package com.android.mobileguard.activities;
 import com.android.mobileguard.R;
 import com.android.mobileguard.service.ShowAddressService;
 import com.android.mobileguard.service.SmsCallSafeService;
+import com.android.mobileguard.service.WatchDogService;
 import com.android.mobileguard.ui.SwitchImageView;
 import com.android.mobileguard.utils.ServiceStatusUtils;
 
@@ -33,6 +34,9 @@ public class SettingActivity extends Activity {
 	private SwitchImageView siv_setting_showlocation;
 	private RelativeLayout rl_setting_showlocation; 
 	
+	//看门狗服务开关
+	private SwitchImageView siv_setting_watchdog;
+	private RelativeLayout rl_setting_openwatchdog; 
 	
 	
 	//归属地显示风格
@@ -63,7 +67,8 @@ public class SettingActivity extends Activity {
 		rl_setting_showlocation = (RelativeLayout) findViewById(R.id.rl_setting_showlocation);
 		
 		
-		
+		siv_setting_watchdog = (SwitchImageView) findViewById(R.id.siv_setting_watchdog);
+		rl_setting_openwatchdog = (RelativeLayout) findViewById(R.id.rl_setting_openwatchdog);
 		
 		
 		//判断服务是否处于运行状态，回写状态到界面
@@ -103,6 +108,20 @@ public class SettingActivity extends Activity {
 		boolean status = siv_setting_showlocation.getSwitchStatus();
 		Intent service = new Intent(SettingActivity.this,ShowAddressService.class);
 		if(status){
+			startService(service);
+		}else{
+			stopService(service);
+		}
+	}
+	/**
+	 * 看门狗服务开关
+	 * @param view
+	 */
+	public void openwatchdog(View view){
+		Intent service = new Intent(SettingActivity.this,WatchDogService.class);
+		siv_setting_watchdog.changeStatus();
+		if(!ServiceStatusUtils.isServiceRunning(this, "com.android.mobileguard.service.WatchDogService")){
+			//服务未运行，开启服务
 			startService(service);
 		}else{
 			stopService(service);

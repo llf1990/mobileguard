@@ -30,6 +30,8 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE"/>
+    <uses-permission android:name="android.permission.CLEAR_APP_CACHE"/>
+    <uses-permission android:name="android.permission.GET_TASKS"/>
 
     <application
         android:allowBackup="true"
@@ -82,6 +84,8 @@
 		</activity>
         <activity android:name="com.android.mobileguard.activities.SysAccelerateActivity">
         </activity>
+        <activity android:name="com.android.mobileguard.activities.AppLockActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.EnterLockedAppActivity"></activity>
         
         <!-- 手机重启广播接受者 -->
         <receiver android:name="com.android.mobileguard.ui.receiver.BootCompleteReceiver" >
@@ -119,18 +123,13 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.android.mobileguard.service.LocationService" >
-        </service>
-        <service android:name="com.android.mobileguard.service.SmsCallSafeService" >
-        </service>
-        <service android:name="com.android.mobileguard.service.ShowAddressService" >
-        </service>
-        <service android:name="com.android.mobileguard.service.RocketService" >
-        </service>
-        <service android:name="com.android.mobileguard.service.UpdatewidgetService" >
-        </service>
-        <service android:name="com.android.mobileguard.service.UpdateVirusDBService">
-        </service>
+        <service android:name="com.android.mobileguard.service.LocationService" ></service>
+        <service android:name="com.android.mobileguard.service.SmsCallSafeService" ></service>
+        <service android:name="com.android.mobileguard.service.ShowAddressService" ></service>
+        <service android:name="com.android.mobileguard.service.RocketService" ></service>
+        <service android:name="com.android.mobileguard.service.UpdatewidgetService" ></service>
+        <service android:name="com.android.mobileguard.service.UpdateVirusDBService"></service>
+        <service android:name="com.android.mobileguard.service.WatchDogService"></service>
     </application>
 
 </manifest>

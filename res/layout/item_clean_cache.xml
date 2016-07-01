@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    
+    >
+    <ImageView
+        android:id="@+id/iv_cache_appicon" 
+        android:layout_width="50dp"
+    	android:layout_height="50dp"  
+        android:src="@drawable/ic_launcher"
+        />
+	<TextView 
+	    android:layout_centerVertical="true"
+	    android:id="@+id/tv_cache_appname" 
+	    android:layout_toRightOf="@id/iv_cache_appicon"
+	    android:textSize="20sp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+	   android:text="应用名称"
+	    />
+	<TextView 
+	    android:layout_alignParentRight="true"
+	    android:layout_centerVertical="true"
+	    android:id="@+id/tv_cache_size" 
+	    android:textSize="15sp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+	   android:text="缓存大小"
+	    />
+	
+</RelativeLayout>

@@ -88,5 +88,27 @@
          android:layout_marginLeft="15dp"
          android:layout_marginRight="15dp"
           />
-
+	<RelativeLayout 
+        android:clickable="true"
+        android:onClick="enterAppLock"
+        android:id="@+id/bt_app_lock"
+        android:background="@drawable/last_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="5sp"
+        android:layout_marginLeft="8sp"
+        
+        >
+   	 <TextView
+        android:id="@+id/bt_app_lock"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_centerInParent="true"
+   	    android:layout_marginLeft="10dp"
+   	    android:padding="2dp"
+   	    android:text="程序锁"
+   	    android:textSize="25sp" />
+        
+    </RelativeLayout>
 </LinearLayout>
