@@ -7,5 +7,34 @@
         style="@style/text_title"
         android:text="清理缓存"
         />
-
+	<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
+            <ProgressBar
+                android:progressDrawable="@drawable/progress_horizontal"
+                android:id="@+id/pb_cache_process"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></ProgressBar>
+            <TextView
+                
+                android:layout_marginTop="5dp"
+                android:id="@+id/tv_cache_scan_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                
+                android:text="正在扫描..." >
+            </TextView>
+            <LinearLayout
+                android:id="@+id/ll_frame_cache"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                
+        	</LinearLayout>
+    </LinearLayout>
 </LinearLayout>
