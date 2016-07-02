@@ -6,6 +6,7 @@ import java.util.List;
 import com.android.mobileguard.R;
 import com.android.mobileguard.bean.AppInfo;
 import com.android.mobileguard.engine.AppInfoProvider;
+import com.android.mobileguard.utils.DensityUtil;
 import com.android.mobileguard.utils.SystemInfoUtils;
 
 import android.app.Activity;
@@ -178,7 +179,9 @@ public class AppManagerActivity extends Activity implements OnClickListener {
 				    popup.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 					int[] location = new int[2];
 					view.getLocationInWindow(location);
-					popup.showAtLocation(parent, Gravity.LEFT+Gravity.TOP, 200, location[1]);
+					int x = 65;
+					int px = DensityUtil.dip2px(getApplicationContext(), x);
+					popup.showAtLocation(parent, Gravity.LEFT+Gravity.TOP, px, location[1]);
 					//²¥·Å¶¯»­
 					ScaleAnimation sa = new ScaleAnimation(0.3f,1.0f, 0.3f, 1.0f, Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0.5f);
 					sa.setDuration(500);
