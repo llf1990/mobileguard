@@ -49,7 +49,7 @@ public class WatchDogService extends Service {
 						startActivity(intent);
 					}
 					try {
-						Thread.sleep(300);
+						Thread.sleep(30);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
@@ -60,6 +60,7 @@ public class WatchDogService extends Service {
 	}
 	
 	private void onstop() {
+		
 		flag = false ;
 
 	}

@@ -67,4 +67,18 @@ public class EnterLockedAppActivity extends Activity {
 		}
 		
 	}
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.setAction("android.intent.action.MAIN");
+		intent.addCategory("android.intent.category.HOME");
+		intent.addCategory("android.intent.category.DEFAULT");
+		startActivity(intent); 
+	}
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		finish();
+	}
 }	

@@ -85,7 +85,7 @@
         <activity android:name="com.android.mobileguard.activities.SysAccelerateActivity">
         </activity>
         <activity android:name="com.android.mobileguard.activities.AppLockActivity"></activity>
-        <activity android:name="com.android.mobileguard.activities.EnterLockedAppActivity"></activity>
+        <activity android:name="com.android.mobileguard.activities.EnterLockedAppActivity" android:launchMode="singleInstance"></activity>
         
         <!-- 手机重启广播接受者 -->
         <receiver android:name="com.android.mobileguard.ui.receiver.BootCompleteReceiver" >
